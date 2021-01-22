@@ -1,35 +1,31 @@
 package main
 
 import (
+	"WebApplications/MVC/Views"
 	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
-func handleFunc(w http.ResponseWriter, r *http.Request) {
+var hoemView *Views.View
+var ContactView *Views.View
+
+func Home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-
-	if r.URL.Path == "/" {
-		fmt.Fprint(w, "<h1>Welcoem to my page</h1>")
-	} else if r.URL.Path == "/Contact" {
-		fmt.Fprint(w, "To get in touch please send an email to <a href=\"google.com\" >Gmail</a>")
-	} else {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprint(w, "<h1>We could not found your page for :(</h1> <p>plese contact us if any queries</p>")
-
+	err := hoemView.Template.Execute(w, nil)
+	if err != nil {
+		panic(err)
 	}
 
 }
 
-func Home(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-	fmt.Fprint(w, "<h1>Welcome back</h1>")
-}
-
 func Contact(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	fmt.Fprint(w, "</h1>To get in touch please send an email to <a href=\"google.com\" >Gmail</a>")
+	err := ContactView.Template.Execute(w, nil)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func FAQ(w http.ResponseWriter, r *http.Request) {
@@ -52,6 +48,10 @@ func PageNotFound(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
+	hoemView = Views.NewView("Views/home.gohtml")
+	ContactView = Views.NewView("Views/Contact.gohtml")
+
 	r := mux.NewRouter()
 	r.HandleFunc("/", Home)
 	r.HandleFunc("/Contact", Contact)

@@ -1,0 +1,9 @@
+<h1>Hello , {{.User.Name}} </h1>
+<h1>You are , {{.User.Age}} Year's old</h1>
+
+<h2>here's your dogs name {{.DogData.Name}} </h2>
+<h3> And He is {{.DogData.Age}} years Old</h3>
+
+{{range .Friends.Name}}
+<h1>Names Of Friends {{.}}</h1>
+{{end}}
