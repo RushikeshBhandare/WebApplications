@@ -1,0 +1,19 @@
+{{define "bootstrap"}}
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Starter Template · Bootstrap v5.0</title>
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+        
+
+  </head>
+  <body>
+     <div class="container-fluid">
+        <!-- our Content Here-->
+     {{template "yield" .}}
+    </div>
+
+<script src="//stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>    
+  </body>
+</html>
+{{end}}

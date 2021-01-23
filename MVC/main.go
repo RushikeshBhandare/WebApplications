@@ -13,7 +13,7 @@ var ContactView *Views.View
 
 func Home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	err := hoemView.Template.Execute(w, nil)
+	err := hoemView.Template.ExecuteTemplate(w, hoemView.Layout, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -22,7 +22,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 
 func Contact(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	err := ContactView.Template.Execute(w, nil)
+	err := ContactView.Template.ExecuteTemplate(w, ContactView.Layout, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -49,8 +49,8 @@ func PageNotFound(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	hoemView = Views.NewView("Views/home.gohtml")
-	ContactView = Views.NewView("Views/Contact.gohtml")
+	hoemView = Views.NewView("bootstrap", "Views/home.gohtml")
+	ContactView = Views.NewView("bootstrap", "Views/Contact.gohtml")
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", Home)
