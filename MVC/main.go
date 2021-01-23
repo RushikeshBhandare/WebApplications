@@ -10,6 +10,7 @@ import (
 
 var hoemView *Views.View
 var ContactView *Views.View
+var SignUpView *Views.View
 
 func Home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
@@ -22,18 +23,9 @@ func Contact(w http.ResponseWriter, r *http.Request) {
 	must(ContactView.Render(w, nil))
 }
 
-func FAQ(w http.ResponseWriter, r *http.Request) {
+func SignUpPage(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-
-	fmt.Fprint(w, "<h1>Frequently Asked Quations</h1>")
-	fmt.Fprint(w, "<ul>")
-	fmt.Fprint(w, "<li>Can I GEt Free Trial Before purcahse</li>")
-	fmt.Fprint(w, "<li>How do i purchase a membership for nintendo switch online </li>")
-	fmt.Fprint(w, "<li>Will men=mvership plans changed automatically </li>")
-	fmt.Fprint(w, "<li>Acn i change aFrom An individual Membership To a famely Membership</li>")
-
-	fmt.Fprint(w, "</ul>")
-
+	must(SignUpView.Render(w, nil))
 }
 
 func PageNotFound(w http.ResponseWriter, r *http.Request) {
@@ -45,11 +37,11 @@ func main() {
 
 	hoemView = Views.NewView("bootstrap", "Views/home.gohtml")
 	ContactView = Views.NewView("bootstrap", "Views/Contact.gohtml")
-
+	SignUpView = Views.NewView("bootstrap", "Views/SignUp.gohtml")
 	r := mux.NewRouter()
 	r.HandleFunc("/", Home)
 	r.HandleFunc("/Contact", Contact)
-	r.HandleFunc("/faq", FAQ)
+	r.HandleFunc("/SignUp", SignUpPage)
 	r.NotFoundHandler = http.HandlerFunc(PageNotFound)
 	http.ListenAndServe(":3000", r)
 }
