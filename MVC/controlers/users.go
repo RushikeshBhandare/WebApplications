@@ -4,6 +4,8 @@ import (
 	"WebApplications/MVC/Views"
 	"fmt"
 	"net/http"
+
+	"github.com/gorilla/schema"
 )
 
 //new users use to create a new user conmtroller
@@ -30,6 +32,11 @@ func (u *Users) New(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+type SignupForm struct {
+	Email    string `schema:"email"`
+	Password string `schema:"password"`
+}
+
 //Create is used to prossess the sign up form wen a user
 //Submit it .this is used rto creat a new user accout
 //
@@ -40,13 +47,13 @@ func (u *Users) Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	// r.PostForm
-	fmt.Fprint(w, r.PostFormValue("email"))
-	fmt.Fprint(w, r.PostForm["email"])
 
-	fmt.Fprint(w, r.PostFormValue("password"))
-	fmt.Fprint(w, r.PostForm["password"])
-
-	fmt.Fprint(w, "this is temprarhy response")
+	dec := schema.NewDecoder()
+	var form SignupForm
+	err = dec.Decode(&form, r.PostForm)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Fprint(w, form)
 
 }
