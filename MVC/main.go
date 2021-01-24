@@ -2,6 +2,7 @@ package main
 
 import (
 	"WebApplications/MVC/Views"
+	"WebApplications/MVC/controlers"
 	"fmt"
 	"net/http"
 
@@ -10,7 +11,6 @@ import (
 
 var hoemView *Views.View
 var ContactView *Views.View
-var SignUpView *Views.View
 
 func Home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
@@ -23,11 +23,6 @@ func Contact(w http.ResponseWriter, r *http.Request) {
 	must(ContactView.Render(w, nil))
 }
 
-func SignUpPage(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-	must(SignUpView.Render(w, nil))
-}
-
 func PageNotFound(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	fmt.Fprint(w, "<h1>Error 404 Webpage not found</h1><p>Contact if redirectd to Anothe page </p>")
@@ -37,11 +32,12 @@ func main() {
 
 	hoemView = Views.NewView("bootstrap", "Views/home.gohtml")
 	ContactView = Views.NewView("bootstrap", "Views/Contact.gohtml")
-	SignUpView = Views.NewView("bootstrap", "Views/SignUp.gohtml")
+	UserC := controlers.NewUser()
+
 	r := mux.NewRouter()
 	r.HandleFunc("/", Home)
 	r.HandleFunc("/Contact", Contact)
-	r.HandleFunc("/SignUp", SignUpPage)
+	r.HandleFunc("/SignUp", UserC.New)
 	r.NotFoundHandler = http.HandlerFunc(PageNotFound)
 	http.ListenAndServe(":3000", r)
 }
