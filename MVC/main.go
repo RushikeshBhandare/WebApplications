@@ -35,9 +35,11 @@ func main() {
 	UserC := controlers.NewUser()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/", Home)
-	r.HandleFunc("/Contact", Contact)
-	r.HandleFunc("/SignUp", UserC.New)
+	r.HandleFunc("/", Home).Methods("GET")
+	r.HandleFunc("/Contact", Contact).Methods("GET")
+	r.HandleFunc("/SignUp", UserC.New).Methods("GET")
+	r.HandleFunc("/SignUp", UserC.Create).Methods("POST")
+
 	r.NotFoundHandler = http.HandlerFunc(PageNotFound)
 	http.ListenAndServe(":3000", r)
 }
