@@ -4,8 +4,6 @@ import (
 	"WebApplications/MVC/Views"
 	"fmt"
 	"net/http"
-
-	"github.com/gorilla/schema"
 )
 
 //new users use to create a new user conmtroller
@@ -42,18 +40,10 @@ type SignupForm struct {
 //
 //POST / signup
 func (u *Users) Create(w http.ResponseWriter, r *http.Request) {
-
-	err := r.ParseForm()
-	if err != nil {
-		panic(err)
-	}
-
-	dec := schema.NewDecoder()
 	var form SignupForm
-	err = dec.Decode(&form, r.PostForm)
+	err := parseForm(r, &form)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Fprint(w, form)
-
 }
