@@ -1,27 +1,12 @@
 package main
 
 import (
-	"WebApplications/MVC/Views"
 	"WebApplications/MVC/controlers"
 	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
-
-var hoemView *Views.View
-var ContactView *Views.View
-
-func Home(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-	must(hoemView.Render(w, nil))
-
-}
-
-func Contact(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-	must(ContactView.Render(w, nil))
-}
 
 func PageNotFound(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
@@ -30,13 +15,12 @@ func PageNotFound(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	hoemView = Views.NewView("bootstrap", "Views/home.gohtml")
-	ContactView = Views.NewView("bootstrap", "Views/Contact.gohtml")
+	statcC := controlers.NewStactc()
 	UserC := controlers.NewUser()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/", Home).Methods("GET")
-	r.HandleFunc("/Contact", Contact).Methods("GET")
+	r.Handle("/", statcC.Home).Methods("GET")
+	r.Handle("/Contact", statcC.Contact).Methods("GET")
 	r.HandleFunc("/SignUp", UserC.New).Methods("GET")
 	r.HandleFunc("/SignUp", UserC.Create).Methods("POST")
 
